@@ -1,6 +1,22 @@
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
 from bs4 import BeautifulSoup
-from json import dump, dumps, loads
+from openai import AzureOpenAI
 from requests import get
+
+
+vault_url = "https://kv-velosio.vault.azure.net/"
+credential = DefaultAzureCredential()
+secret_client = SecretClient(vault_url=vault_url, credential=credential)
+endpoint = secret_client.get_secret("AOAIEndpoint").value
+api_key = secret_client.get_secret("AOAIKey").value
+deployment = secret_client.get_secret("AOAIDeploymentId3").value
+
+client = AzureOpenAI(
+    api_version="2023-07-01-preview",
+    azure_endpoint=endpoint,
+    api_key=api_key,
+)
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36"
@@ -58,12 +74,38 @@ def get_article_content(article_url):
     return article_content
 
 
+def gen_article_summary(article_title, article_content=""):
+    system_message = (
+        "Given the HTML content of an article, "
+        + "provide a one to two sentence summary. "
+        + "If the HTML content is not provided, "
+        + "summarize the article based on its title."
+    )
+
+    messages = [{"role": "system", "content": system_message}]
+    user_message_content = "TITLE: " + article_title + "\n" + article_content
+    user_message = {"role": "user", "content": user_message_content}
+    messages.append(user_message)
+
+    completion = client.chat.completions.create(
+        model=deployment,
+        messages=messages,
+    )
+
+    response = completion.choices[0].message.content
+    return response
+
+
 def main():
     articles_data = get_article_info()
     for article in articles_data:
         article_url = article["link"]
         article_name = article["title"]
         article_content = get_article_content(article_url)
+        article_summary = gen_article_summary(article_name, article_content)
+        print("Title:", article_name)
+        print(article_summary)
+        print()
 
 
 if __name__ == "__main__":
