@@ -1,7 +1,7 @@
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 from bs4 import BeautifulSoup
-from json import dumps
+from json import dumps, loads
 from openai import AzureOpenAI
 from requests import get
 
@@ -118,8 +118,9 @@ def gen_article_categories(articles_data):
         response_format={"type": "json_object"},
     )
 
-    response = completion.choices[0].message.content
-    return response
+    response = loads(completion.choices[0].message.content)
+    articles_data = response["articles"]
+    return articles_data
 
 
 def main():
