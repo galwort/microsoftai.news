@@ -112,6 +112,7 @@ def gen_article_categories(articles_data):
     completion = client.chat.completions.create(
         model=deployment,
         messages=messages,
+        response_format="json",
     )
 
     response = completion.choices[0].message.content
