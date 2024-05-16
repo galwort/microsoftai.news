@@ -1,9 +1,9 @@
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 from bs4 import BeautifulSoup
+from json import dumps
 from openai import AzureOpenAI
 from requests import get
-
 
 vault_url = "https://kv-velosio.vault.azure.net/"
 credential = DefaultAzureCredential()
@@ -106,7 +106,8 @@ def gen_article_categories(articles_data):
     )
 
     messages = [{"role": "system", "content": system_message}]
-    user_message = {"role": "user", "content": articles_data}
+    user_message_content = dumps(articles_data, indent=2)
+    user_message = {"role": "user", "content": user_message_content}
     messages.append(user_message)
 
     completion = client.chat.completions.create(
