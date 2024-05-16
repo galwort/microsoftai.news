@@ -35,14 +35,35 @@ def get_article_info():
     return articles_data
 
 
+def get_article_content(article_url):
+    classes = ["entry-content m-blog-content", "post__content", "single__content"]
+    article_content = ""
+    response = get(article_url, headers=headers)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        article_id_div = soup.find("div", id="blog-post-content")
+        if article_id_div:
+            article_content = article_content + str(
+                soup.find("div", id="blog-post-content")
+            )
+
+        for class_text in classes:
+            article_div = soup.find("div", class_=class_text)
+            if article_div:
+                article_content = article_content + str(article_div)
+    else:
+        print("Failed to retrieve the webpage. Status code:", response.status_code)
+
+    return article_content
+
+
 def main():
     articles_data = get_article_info()
     for article in articles_data:
         article_url = article["link"]
         article_name = article["title"]
-        response = get(article_url, headers=headers)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, "html.parser")
+        article_content = get_article_content(article_url)
 
 
 if __name__ == "__main__":
