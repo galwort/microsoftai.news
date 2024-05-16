@@ -102,7 +102,9 @@ def gen_article_categories(articles_data):
         + "categorize each article into one of two to four categories, "
         + "based on the type of article it is. For example, possible categories "
         + "could be Product Updates, Success Story, or Company News. "
-        + "Respond in JSON format with the article title and category."
+        + "Respond in JSON format with the article title and category, "
+        + "using 'title' and 'category' as their respective keys. "
+        + "Use 'articles' as the overall key."
     )
 
     messages = [{"role": "system", "content": system_message}]
