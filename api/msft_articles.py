@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from json import dump
 from requests import get
 
 
@@ -9,9 +10,10 @@ def get_article_info():
     }
     response = get(url, headers=headers)
 
+    articles_data = []
+
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, "html.parser")
-
         articles = soup.find_all("div", class_="fwpl-row el-8cjrpw")
 
         for article in articles:
@@ -22,10 +24,7 @@ def get_article_info():
             date_element = article.find("div", class_="fwpl-item el-37vm0k7 kicker")
             date = date_element.text.strip()
 
-            print(f"Title: {title}")
-            print(f"Link: {link}")
-            print(f"Date: {date}")
-            print()
+            articles_data.append({"title": title, "link": link, "date": date})
     else:
         print("Failed to retrieve the webpage. Status code:", response.status_code)
 
