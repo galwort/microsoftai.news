@@ -96,16 +96,40 @@ def gen_article_summary(article_title, article_content=""):
     return response
 
 
+def gen_article_categories(articles_data):
+    system_message = (
+        "Given JSON information about articles, "
+        + "categorize each article into one of two to four categories, "
+        + "based on the type of article it is. For example, possible categories "
+        + "could be Product Updates, Success Story, or Company News. "
+        + "Respond in JSON format with the article title and category."
+    )
+
+    messages = [{"role": "system", "content": system_message}]
+    user_message = {"role": "user", "content": articles_data}
+    messages.append(user_message)
+
+    completion = client.chat.completions.create(
+        model=deployment,
+        messages=messages,
+    )
+
+    response = completion.choices[0].message.content
+    return response
+
+
 def main():
     articles_data = get_article_info()
+
     for article in articles_data:
         article_url = article["link"]
         article_name = article["title"]
         article_content = get_article_content(article_url)
         article_summary = gen_article_summary(article_name, article_content)
-        print("Title:", article_name)
-        print(article_summary)
-        print()
+        article["summary"] = article_summary
+
+    article_categories = gen_article_categories(articles_data)
+    print(article_categories)
 
 
 if __name__ == "__main__":
