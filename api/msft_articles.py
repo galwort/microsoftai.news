@@ -1,6 +1,10 @@
 from bs4 import BeautifulSoup
-from json import dump
+from json import dump, dumps, loads
 from requests import get
+
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36"
+}
 
 
 def get_article_info():
@@ -28,9 +32,17 @@ def get_article_info():
     else:
         print("Failed to retrieve the webpage. Status code:", response.status_code)
 
+    return articles_data
+
 
 def main():
-    get_article_info()
+    articles_data = get_article_info()
+    for article in articles_data:
+        article_url = article["link"]
+        article_name = article["title"]
+        response = get(article_url, headers=headers)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, "html.parser")
 
 
 if __name__ == "__main__":
