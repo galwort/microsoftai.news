@@ -2,21 +2,13 @@ from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 from bs4 import BeautifulSoup
 from json import dumps, loads
-from openai import AzureOpenAI
+from openai import OpenAI
 from requests import get
 
-vault_url = "https://kv-velosio.vault.azure.net/"
+vault_url = "https://kv-galwort.vault.azure.net/"
 credential = DefaultAzureCredential()
 secret_client = SecretClient(vault_url=vault_url, credential=credential)
-endpoint = secret_client.get_secret("AOAIEndpoint").value
-api_key = secret_client.get_secret("AOAIKey").value
-deployment = secret_client.get_secret("AOAIDeploymentId3").value
-
-client = AzureOpenAI(
-    api_version="2023-07-01-preview",
-    azure_endpoint=endpoint,
-    api_key=api_key,
-)
+client = OpenAI(api_key=secret_client.get_secret("OAIKey").value)
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36"
@@ -84,13 +76,12 @@ def gen_article_summary(article_title, article_content=""):
     user_message = {"role": "user", "content": user_message_content}
     messages.append(user_message)
 
-    completion = client.chat.completions.create(
-        model=deployment,
+    response = client.chat.completions.create(
+        model="gpt-4o",
         messages=messages,
     )
 
-    response = completion.choices[0].message.content
-    return response
+    return response.choices[0].message.content
 
 
 def gen_article_categories(articles_data):
@@ -109,14 +100,14 @@ def gen_article_categories(articles_data):
     user_message = {"role": "user", "content": user_message_content}
     messages.append(user_message)
 
-    completion = client.chat.completions.create(
-        model=deployment,
+    response = client.chat.completions.create(
+        model="gpt-4o",
         messages=messages,
         response_format={"type": "json_object"},
     )
 
-    response = loads(completion.choices[0].message.content)
-    article_categories = response["articles"]
+    response_json = loads(response.choices[0].message.content)
+    article_categories = response_json["articles"]
     return article_categories
 
 
