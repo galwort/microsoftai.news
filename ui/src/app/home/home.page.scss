@@ -1,27 +1,29 @@
-#container {
-  text-align: center;
+.content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  width: 100%;
+  min-width: 500px;
+  padding: 50px;
+  padding-top: 25px;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
+  hr {
+    width: 50%;
+    margin-left: 0;
+    background-color: white;
+  }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
+  h2 {
+    font-size: 1.2rem;
+  }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
+  .articles {
+    margin-bottom: 1px;
+    width: fit-content;
 
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
 }
