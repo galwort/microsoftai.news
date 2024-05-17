@@ -63,6 +63,27 @@ def get_article_content(article_url):
     return article_content
 
 
+def gen_article_slug(article_title):
+    system_message = (
+        "Given the title of an article, "
+        + "generate a new, shorter title, "
+        + "that summarizes the title with "
+        + "a maximum of 5 words."
+    )
+
+    messages = [{"role": "system", "content": system_message}]
+    user_message_content = article_title
+    user_message = {"role": "user", "content": user_message_content}
+    messages.append(user_message)
+
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=messages,
+    )
+
+    return response.choices[0].message.content
+
+
 def gen_article_summary(article_title, article_content=""):
     system_message = (
         "Given the HTML content of an article, "
@@ -115,8 +136,12 @@ def main():
     articles_data = get_article_info()
 
     for article in articles_data:
-        article_url = article["link"]
         article_name = article["title"]
+        article_url = article["link"]
+
+        article_slug = gen_article_slug(article_name)
+        article["slug"] = article_slug
+
         article_content = get_article_content(article_url)
         article_summary = gen_article_summary(article_name, article_content)
         article["summary"] = article_summary
