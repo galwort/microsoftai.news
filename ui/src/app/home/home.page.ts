@@ -13,9 +13,8 @@ export class HomePage implements OnInit {
   endDate: string;
 
   constructor() {
-    const today = new Date();
-    this.startDate = today.toISOString();
-    this.endDate = today.toISOString();
+    this.endDate = new Date().toISOString();
+    this.startDate = this.getPreviousMonday().toISOString();
   }
 
   ngOnInit() {
@@ -78,5 +77,12 @@ export class HomePage implements OnInit {
 
   onDateChange() {
     this.filterArticles();
+  }
+
+  getPreviousMonday(): Date {
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const diff = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+    return new Date(today.setDate(diff));
   }
 }
