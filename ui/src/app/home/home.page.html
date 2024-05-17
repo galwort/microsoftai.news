@@ -3,7 +3,7 @@
     <h1>Microsoft AI News</h1>
     <hr />
     <div class="articles">
-      <p>article</p>
+      <p *ngFor="let article of articles">{{ article.title }}</p>
     </div>
   </div>
 </ion-content>
