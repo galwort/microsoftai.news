@@ -9,9 +9,14 @@ export class HomePage implements OnInit {
   articles: any[] = [];
   colors: string[] = ['#F14F21', '#7EB900', '#00A3EE', '#FEB800', '#727272'];
   filteredArticles: any[] = [];
-  selectedDate: Date = new Date();
+  startDate: string;
+  endDate: string;
 
-  constructor() {}
+  constructor() {
+    const today = new Date();
+    this.startDate = today.toISOString();
+    this.endDate = today.toISOString();
+  }
 
   ngOnInit() {
     const jsonString = `[
@@ -59,14 +64,19 @@ export class HomePage implements OnInit {
   }
 
   filterArticles() {
+    const startTimestamp = new Date(this.startDate).setHours(0, 0, 0, 0);
+    const endTimestamp = new Date(this.endDate).setHours(23, 59, 59, 999);
+
     this.filteredArticles = this.articles.filter((article) => {
       const articleDate = new Date(Date.parse(article.date));
-      return articleDate.toDateString() === this.selectedDate.toDateString();
+      return (
+        articleDate >= new Date(startTimestamp) &&
+        articleDate <= new Date(endTimestamp)
+      );
     });
   }
 
-  onDateChange(event: any) {
-    this.selectedDate = new Date(event.target.value);
+  onDateChange() {
     this.filterArticles();
   }
 }

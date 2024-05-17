@@ -3,11 +3,11 @@
     <div class="header">
       <h1>Microsoft AI News</h1>
       <div class="date-filter">
-        <input
-          type="date"
-          [value]="selectedDate.toISOString().slice(0, 10)"
-          (change)="onDateChange($event)"
-        />
+        <ion-item lines="none">
+          <ion-datetime-button datetime="startDateTime"></ion-datetime-button>
+          <ion-text>-</ion-text>
+          <ion-datetime-button datetime="endDateTime"></ion-datetime-button>
+        </ion-item>
       </div>
     </div>
     <hr />
@@ -24,3 +24,25 @@
     </div>
   </div>
 </ion-content>
+
+<ion-modal [keepContentsMounted]="true">
+  <ng-template>
+    <ion-datetime
+      id="startDateTime"
+      presentation="date"
+      [(ngModel)]="startDate"
+      (ionChange)="onDateChange()"
+    ></ion-datetime>
+  </ng-template>
+</ion-modal>
+
+<ion-modal [keepContentsMounted]="true">
+  <ng-template>
+    <ion-datetime
+      id="endDateTime"
+      presentation="date"
+      [(ngModel)]="endDate"
+      (ionChange)="onDateChange()"
+    ></ion-datetime>
+  </ng-template>
+</ion-modal>
