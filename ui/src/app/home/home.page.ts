@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class HomePage implements OnInit {
   articles: any[] = [];
   colors: string[] = ['#F14F21', '#7EB900', '#00A3EE', '#FEB800', '#727272'];
+  filteredArticles: any[] = [];
+  selectedDate: Date = new Date();
 
   constructor() {}
 
@@ -28,6 +30,7 @@ export class HomePage implements OnInit {
     ]`;
 
     this.articles = JSON.parse(jsonString);
+    this.filterArticles();
   }
 
   getIconForCategory(category: string): string {
@@ -53,5 +56,17 @@ export class HomePage implements OnInit {
     );
     const index = categories.indexOf(category);
     return this.colors[index % this.colors.length];
+  }
+
+  filterArticles() {
+    this.filteredArticles = this.articles.filter((article) => {
+      const articleDate = new Date(Date.parse(article.date));
+      return articleDate.toDateString() === this.selectedDate.toDateString();
+    });
+  }
+
+  onDateChange(event: any) {
+    this.selectedDate = new Date(event.target.value);
+    this.filterArticles();
   }
 }

@@ -1,10 +1,19 @@
 <ion-content>
   <div class="content">
-    <h1>Microsoft AI News</h1>
+    <div class="header">
+      <h1>Microsoft AI News</h1>
+      <div class="date-filter">
+        <input
+          type="date"
+          [value]="selectedDate.toISOString().slice(0, 10)"
+          (change)="onDateChange($event)"
+        />
+      </div>
+    </div>
     <hr />
     <div class="articles">
       <a
-        *ngFor="let article of articles"
+        *ngFor="let article of filteredArticles"
         [href]="article.link"
         target="_blank"
         [style.--category-color]="getColorForCategory(article.category)"
