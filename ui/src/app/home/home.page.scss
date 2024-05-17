@@ -30,6 +30,11 @@
       border: 2px solid white;
       border-radius: 30px;
       text-align: center;
+
+      &:hover {
+        color: red;
+        border-color: red;
+      }
     }
 
     p {
