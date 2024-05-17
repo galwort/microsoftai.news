@@ -3,7 +3,12 @@
     <h1>Microsoft AI News</h1>
     <hr />
     <div class="articles">
-      <a *ngFor="let article of articles" [href]="article.link" target="_blank">
+      <a
+        *ngFor="let article of articles"
+        [href]="article.link"
+        target="_blank"
+        [style.--category-color]="getColorForCategory(article.category)"
+      >
         <ion-icon [name]="getIconForCategory(article.category)"></ion-icon>
         <p>{{ article.title }}</p>
       </a>

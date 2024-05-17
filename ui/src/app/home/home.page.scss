@@ -39,8 +39,8 @@
       }
 
       &:hover {
-        color: red;
-        border-color: red;
+        color: var(--category-color);
+        border-color: var(--category-color);
       }
     }
 

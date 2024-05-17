@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
   articles: any[] = [];
+  colors: string[] = ['#F14F21', '#7EB900', '#00A3EE', '#FEB800', '#727272'];
 
   constructor() {}
 
@@ -44,5 +45,13 @@ export class HomePage implements OnInit {
       default:
         return 'information-circle';
     }
+  }
+
+  getColorForCategory(category: string): string {
+    const categories = Array.from(
+      new Set(this.articles.map((article) => article.category))
+    );
+    const index = categories.indexOf(category);
+    return this.colors[index % this.colors.length];
   }
 }
