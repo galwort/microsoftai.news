@@ -23,13 +23,13 @@
 
     a {
       text-decoration: none;
-      color: white;
+      color: var(--category-color);
       display: flex;
       align-items: center;
       margin: 20px;
       margin-left: 0;
       padding: 20px;
-      border: 2px solid white;
+      border: 2px solid var(--category-color);
       border-radius: 30px;
       text-align: center;
       width: fit-content;
@@ -39,8 +39,7 @@
       }
 
       &:hover {
-        color: var(--category-color);
-        border-color: var(--category-color);
+        background-color: #1f1f1f;
       }
     }
 
