@@ -25,9 +25,6 @@ headers = {
 
 def get_article_info():
     url = "https://news.microsoft.com/source/tag/ai/"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36"
-    }
     response = get(url, headers=headers)
 
     articles_data = []
@@ -119,8 +116,8 @@ def gen_article_categories(articles_data):
     )
 
     response = loads(completion.choices[0].message.content)
-    articles_data = response["articles"]
-    return articles_data
+    article_categories = response["articles"]
+    return article_categories
 
 
 def main():
@@ -134,7 +131,17 @@ def main():
         article["summary"] = article_summary
 
     article_categories = gen_article_categories(articles_data)
-    print(article_categories)
+
+    articles_dict = {article["title"]: article for article in articles_data}
+
+    for category in article_categories:
+        title = category["title"]
+        if title in articles_dict:
+            articles_dict[title]["category"] = category["category"]
+
+    articles_data = list(articles_dict.values())
+
+    print(articles_data)
 
 
 if __name__ == "__main__":
