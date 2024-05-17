@@ -11,6 +11,8 @@ export class HomePage implements OnInit {
   filteredArticles: any[] = [];
   startDate: string;
   endDate: string;
+  selectedCategory: string = 'all';
+  categories: string[] = [];
 
   constructor() {
     this.endDate = new Date().toISOString();
@@ -34,6 +36,9 @@ export class HomePage implements OnInit {
     ]`;
 
     this.articles = JSON.parse(jsonString);
+    this.categories = Array.from(
+      new Set(this.articles.map((article) => article.category))
+    );
     this.filterArticles();
   }
 
@@ -68,14 +73,22 @@ export class HomePage implements OnInit {
 
     this.filteredArticles = this.articles.filter((article) => {
       const articleDate = new Date(Date.parse(article.date));
+      const categoryMatch =
+        this.selectedCategory === 'all' ||
+        article.category === this.selectedCategory;
       return (
         articleDate >= new Date(startTimestamp) &&
-        articleDate <= new Date(endTimestamp)
+        articleDate <= new Date(endTimestamp) &&
+        categoryMatch
       );
     });
   }
 
   onDateChange() {
+    this.filterArticles();
+  }
+
+  onCategoryChange() {
     this.filterArticles();
   }
 

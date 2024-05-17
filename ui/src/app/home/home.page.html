@@ -9,6 +9,19 @@
           <ion-datetime-button datetime="endDateTime"></ion-datetime-button>
         </ion-item>
       </div>
+      <div class="category-filter">
+        <ion-radio-group
+          [(ngModel)]="selectedCategory"
+          (ionChange)="onCategoryChange()"
+        >
+          <ion-item lines="none">
+            <ion-radio value="all">All</ion-radio>
+            <ion-radio *ngFor="let category of categories" [value]="category"
+              >{{ category }}</ion-radio
+            >
+          </ion-item>
+        </ion-radio-group>
+      </div>
     </div>
     <hr />
     <div class="articles">

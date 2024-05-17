@@ -30,6 +30,19 @@
         }
       }
     }
+
+    .category-filter {
+      margin-left: 5px;
+
+      ion-item {
+        --background: transparent;
+        width: fit-content;
+
+        ion-radio {
+          padding-right: 20px;
+        }
+      }
+    }
   }
 
   hr {
