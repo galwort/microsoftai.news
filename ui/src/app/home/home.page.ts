@@ -73,15 +73,18 @@ export class HomePage implements OnInit {
 
     this.filteredArticles = this.articles.filter((article) => {
       const articleDate = new Date(Date.parse(article.date));
-      const categoryMatch =
-        this.selectedCategory === 'all' ||
-        article.category === this.selectedCategory;
       return (
         articleDate >= new Date(startTimestamp) &&
-        articleDate <= new Date(endTimestamp) &&
-        categoryMatch
+        articleDate <= new Date(endTimestamp)
       );
     });
+  }
+
+  isArticleTransparent(article: any): boolean {
+    return !(
+      this.selectedCategory === 'all' ||
+      article.category === this.selectedCategory
+    );
   }
 
   onDateChange() {
