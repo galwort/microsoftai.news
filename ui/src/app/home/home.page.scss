@@ -24,12 +24,19 @@
     a {
       text-decoration: none;
       color: white;
-      display: inline-block;
-      margin-bottom: 10px;
-      padding: 10px;
+      display: flex;
+      align-items: center;
+      margin: 20px;
+      margin-left: 0;
+      padding: 20px;
       border: 2px solid white;
       border-radius: 30px;
       text-align: center;
+      width: fit-content;
+
+      ion-icon {
+        margin-right: 10px;
+      }
 
       &:hover {
         color: red;

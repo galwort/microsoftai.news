@@ -28,4 +28,21 @@ export class HomePage implements OnInit {
 
     this.articles = JSON.parse(jsonString);
   }
+
+  getIconForCategory(category: string): string {
+    switch (category) {
+      case 'Product Updates':
+        return 'rocket';
+      case 'Company News':
+        return 'business';
+      case 'Educational Content':
+        return 'school';
+      case 'Success Story':
+        return 'star';
+      case 'Research Insights':
+        return 'eye';
+      default:
+        return 'information-circle';
+    }
+  }
 }
