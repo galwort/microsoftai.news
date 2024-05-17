@@ -7,20 +7,27 @@
   padding: 50px;
   padding-top: 25px;
 
-  h1 {
-    font-weight: bold;
-  }
-
-  .date-filter {
-    margin-left: 0;
-
+  .header {
     ion-item {
       --background: transparent;
 
-      ion-datetime-button::part(native) {
-        background-color: transparent;
-        font-size: min(3.5vw, 1.2em);
-        padding: 5px;
+      h1 {
+        font-weight: bold;
+        padding-left: 5px;
+      }
+    }
+
+    .date-filter {
+      margin-left: 0;
+
+      ion-item {
+        --background: transparent;
+
+        ion-datetime-button::part(native) {
+          background-color: transparent;
+          font-size: min(3.5vw, 1.2em);
+          padding: 5px;
+        }
       }
     }
   }
