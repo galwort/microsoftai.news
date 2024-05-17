@@ -18,7 +18,8 @@
   }
 
   .articles {
-    margin-bottom: 1px;
+    display: flex;
+    flex-wrap: wrap;
     width: fit-content;
 
     a {
