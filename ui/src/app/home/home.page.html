@@ -16,9 +16,9 @@
         >
           <ion-item lines="none">
             <ion-radio value="all">All</ion-radio>
-            <ion-radio *ngFor="let category of categories" [value]="category"
-              >{{ category }}</ion-radio
-            >
+          </ion-item>
+          <ion-item *ngFor="let category of categories" lines="none">
+            <ion-radio [value]="category">{{ category }}</ion-radio>
           </ion-item>
         </ion-radio-group>
       </div>

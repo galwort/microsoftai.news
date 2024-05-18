@@ -34,13 +34,14 @@
     .category-filter {
       margin-left: 5px;
 
+      ion-radio-group {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
       ion-item {
         --background: transparent;
-        width: fit-content;
-
-        ion-radio {
-          padding-right: 20px;
-        }
+        flex: 0 0 auto;
 
         ion-radio::part(label) {
           font-size: min(3.5vw, 1.2em);
@@ -52,7 +53,7 @@
   }
 
   hr {
-    width: 50%;
+    width: 100%;
     margin-left: 0;
     background-color: white;
   }
