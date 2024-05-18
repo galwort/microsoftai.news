@@ -26,14 +26,27 @@
     <hr />
     <div class="articles">
       <a
-        *ngFor="let article of filteredArticles"
+        *ngFor="let article of filteredArticles; let i = index"
         [href]="article.link"
         target="_blank"
         [ngClass]="{'transparent': isArticleTransparent(article)}"
         [style.--category-color]="getColorForCategory(article.category)"
+        [id]="'open-popover-' + i"
       >
         <ion-icon [name]="getIconForCategory(article.category)"></ion-icon>
         <p>{{ article.slug }}</p>
+        <ion-popover
+          [keepContentsMounted]="true"
+          [trigger]="'open-popover-' + i"
+          trigger-action="hover"
+          dismiss-on-leave="true"
+        >
+          <ng-template>
+            <ion-content class="ion-padding">
+              {{ article.summary }}
+            </ion-content>
+          </ng-template>
+        </ion-popover>
       </a>
     </div>
   </div>
