@@ -48,6 +48,14 @@
           margin-left: 2px;
           margin-right: 5px;
         }
+
+        ion-radio::part(mark) {
+          background-color: #00a3ee;
+        }
+
+        ion-radio::part(container) {
+          border-color: white;
+        }
       }
     }
   }
