@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, AfterViewInit {
   articles: any[] = [];
   colors: string[] = ['#F14F21', '#7EB900', '#00A3EE', '#FEB800', '#727272'];
   filteredArticles: any[] = [];
@@ -40,6 +40,45 @@ export class HomePage implements OnInit {
       new Set(this.articles.map((article) => article.category))
     );
     this.filterArticles();
+  }
+
+  ngAfterViewInit() {
+    this.addPopoverListeners();
+  }
+
+  addPopoverListeners() {
+    const popovers = document.querySelectorAll('ion-popover');
+
+    popovers.forEach((popover) => {
+      let popoverViewport: Element | null;
+
+      const addMouseListener = () => {
+        popoverViewport = popover.querySelector('.popover-viewport');
+        if (popoverViewport) {
+          popoverViewport.addEventListener('mouseleave', handleMouseLeave);
+        }
+      };
+
+      const removeMouseListener = () => {
+        if (popoverViewport) {
+          popoverViewport.removeEventListener('mouseleave', handleMouseLeave);
+          popoverViewport = null;
+        }
+      };
+
+      const handleMouseLeave = () => {
+        if (popover) {
+          popover.dismiss();
+        }
+      };
+
+      popover.addEventListener('ionPopoverWillPresent', () => {
+        addMouseListener();
+      });
+      popover.addEventListener('ionPopoverWillDismiss', () => {
+        removeMouseListener();
+      });
+    });
   }
 
   getIconForCategory(category: string): string {
