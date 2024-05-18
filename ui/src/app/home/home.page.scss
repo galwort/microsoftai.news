@@ -98,3 +98,9 @@
     opacity: 0.3;
   }
 }
+
+ion-popover {
+  &::part(content) {
+    min-width: 500px;
+  }
+}
