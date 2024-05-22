@@ -14,6 +14,7 @@ export class HomePage implements OnInit, AfterViewInit {
   endDate: string;
   selectedCategory: string = 'all';
   categories: string[] = [];
+  filteredCategories: string[] = [];
 
   private apiUrl = 'https://fa-microsoftai.azurewebsites.net/api';
 
@@ -140,6 +141,15 @@ export class HomePage implements OnInit, AfterViewInit {
         articleDate <= new Date(endTimestamp)
       );
     });
+
+    this.filterCategories();
+  }
+
+  filterCategories() {
+    const articleCategories = this.filteredArticles.map(
+      (article) => article.category
+    );
+    this.filteredCategories = Array.from(new Set(articleCategories));
   }
 
   isArticleTransparent(article: any): boolean {
