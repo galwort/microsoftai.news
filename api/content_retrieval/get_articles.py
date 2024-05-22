@@ -37,6 +37,7 @@ def get_article_content(article_url):
         "post__content",
         "single__content",
         "article-body",
+        "generic-content__wrapper",
     ]
     article_content = ""
     response = get(article_url, headers=headers)
