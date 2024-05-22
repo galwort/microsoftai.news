@@ -32,7 +32,12 @@ def get_article_info():
 
 
 def get_article_content(article_url):
-    classes = ["entry-content m-blog-content", "post__content", "single__content"]
+    classes = [
+        "entry-content m-blog-content",
+        "post__content",
+        "single__content",
+        "article-body",
+    ]
     article_content = ""
     response = get(article_url, headers=headers)
     if response.status_code == 200:
