@@ -14,7 +14,7 @@
           [(ngModel)]="selectedCategory"
           (ionChange)="onCategoryChange()"
         >
-          <ion-item lines="none">
+          <ion-item *ngIf="filteredCategories.length > 0" lines="none">
             <ion-radio value="all">All</ion-radio>
           </ion-item>
           <ion-item *ngFor="let category of filteredCategories" lines="none">
