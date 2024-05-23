@@ -15,6 +15,7 @@ export class HomePage implements OnInit, AfterViewInit {
   selectedCategory: string = 'all';
   categories: string[] = [];
   filteredCategories: string[] = [];
+  loading: boolean = false;
 
   private apiUrl = 'https://fa-microsoftai.azurewebsites.net/api';
 
@@ -32,6 +33,7 @@ export class HomePage implements OnInit, AfterViewInit {
   }
 
   loadArticles() {
+    this.loading = true;
     this.http
       .get<any[]>(`${this.apiUrl}/get_articles`)
       .subscribe((articlesData) => {
@@ -65,6 +67,7 @@ export class HomePage implements OnInit, AfterViewInit {
                 new Set(this.articles.map((article) => article.category))
               );
               this.filterArticles();
+              this.loading = false;
             });
         });
       });

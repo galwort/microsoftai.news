@@ -21,9 +21,10 @@
             <ion-radio [value]="category">{{ category }}</ion-radio>
           </ion-item>
           <ion-text *ngIf="filteredCategories.length == 0"
-            >Refresh Categories</ion-text
+            >{{ loading ? 'Refreshing' : 'Refresh Categories' }}</ion-text
           >
-          <ion-icon name="refresh-circle-outline"></ion-icon>
+          <ion-spinner name="crescent" *ngIf="loading"></ion-spinner>
+          <ion-icon name="refresh-circle-outline" *ngIf="!loading"></ion-icon>
         </ion-radio-group>
       </div>
     </div>
