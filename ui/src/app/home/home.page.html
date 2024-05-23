@@ -20,11 +20,11 @@
           <ion-item *ngFor="let category of filteredCategories" lines="none">
             <ion-radio [value]="category">{{ category }}</ion-radio>
           </ion-item>
+          <ion-text *ngIf="filteredCategories.length == 0"
+            >Refresh Categories</ion-text
+          >
+          <ion-icon name="refresh-circle-outline"></ion-icon>
         </ion-radio-group>
-        <ion-text *ngIf="filteredCategories.length == 0"
-          >Refresh Categories</ion-text
-        >
-        <ion-icon name="refresh"></ion-icon>
       </div>
     </div>
     <hr />
