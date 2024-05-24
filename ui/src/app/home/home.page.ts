@@ -34,7 +34,10 @@ export class HomePage implements OnInit, AfterViewInit {
   }
 
   private async initializeAzureStorage(): Promise<BlobServiceClient> {
-    const connectionString = 'your-azure-storage-connection-string';
+    const connectionString = process.env['AZURE_STORAGE_CONNECTION_STRING'];
+    if (!connectionString) {
+      throw new Error('Azure Storage connection string not found');
+    }
     const blobServiceClient =
       BlobServiceClient.fromConnectionString(connectionString);
     return blobServiceClient;
